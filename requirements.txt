@@ -1,0 +1,12 @@
+# Core data processing
+pandas
+numpy
+
+# Machine learning
+scikit-learn
+
+# Model persistence
+joblib
+
+# Interactive demo application
+streamlit
