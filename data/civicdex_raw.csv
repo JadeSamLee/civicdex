@@ -44,18 +44,18 @@ CDX_042,sewage overflow aguthu road la,sewage overflow aguthu road la,Sewage is 
 CDX_043,ration card apply panna help venum,ration card apply panna help venum,Need help to apply for ration card,tanglish,application_help,certificates,Revenue Department,low,information_query,urban_area,Chennai,synthetic,train
 CDX_044,street dog problem romba jasthi,street dog problem romba jasthi,Street dog problem is very high,tanglish,complaint,public_health,Public Health Department,medium,service_failure,urban_area,Chennai,synthetic,train
 CDX_045,water tank clean panna sollunga,water tank clean panna sollunga,Request to clean water tank,tanglish,complaint,water_supply,Water Supply Department,medium,service_delay,urban_area,Chennai,synthetic,train
-CDX_046,water supply 3 days ah varala,,,,code_mixed,,,,,,,,synthetic,train
-CDX_047,road la pothole iruku please fix,,,,code_mixed,,,,,,,,synthetic,train
-CDX_048,street light not working night time,,,,code_mixed,,,,,,,,synthetic,train
-CDX_049,drain block aayiduchu need urgent cleaning,,,,code_mixed,,,,,,,,synthetic,train
-CDX_050,garbage collection regular ah illa in my area,,,,code_mixed,,,,,,,,synthetic,train
-CDX_051,ration card application status enna,,,,code_mixed,,,,,,,,synthetic,train
-CDX_052,birth certificate apply panna process explain pannunga,,,,code_mixed,,,,,,,,synthetic,train
-CDX_053,old complaint still not resolved enna update,,,,code_mixed,,,,,,,,synthetic,train
-CDX_054,water tank cleaning request register panna venum,,,,code_mixed,,,,,,,,synthetic,train
-CDX_055,eb bill amount romba high why this much,,,,code_mixed,,,,,,,,synthetic,train
-CDX_056,sewage overflow problem road la dangerous ah iruku,,,,code_mixed,,,,,,,,synthetic,train
-CDX_057,street dog problem complaint register panna venum,,,,code_mixed,,,,,,,,synthetic,train
-CDX_058,passport status check panna website enna,,,,code_mixed,,,,,,,,synthetic,train
-CDX_059,new water connection apply panna help venum,,,,code_mixed,,,,,,,,synthetic,train
-CDX_060,this issue escalate panna higher officer yaru,,,,code_mixed,,,,,,,,synthetic,train
+CDX_046,water supply 3 days ah varala,water supply 3 days ah varala,No water supply for 3 days,code_mixed,complaint,water_supply,Water Supply Department,high,service_failure,urban_area,Chennai,synthetic,train
+CDX_047,road la pothole iruku please fix,road la pothole iruku please fix,There is a pothole on the road please fix,code_mixed,complaint,roads,Roads Department,high,public_hazard,urban_area,Chennai,synthetic,train
+CDX_048,street light not working night time,street light not working night time,Street light not working at night,code_mixed,complaint,street_lighting,Electricity Department,medium,service_failure,urban_area,Chennai,synthetic,train
+CDX_049,drain block aayiduchu need urgent cleaning,drain block aayiduchu need urgent cleaning,Drain is blocked and needs urgent cleaning,code_mixed,complaint,drainage,Drainage Department,high,public_hazard,urban_area,Chennai,synthetic,train
+CDX_050,garbage collection regular ah illa in my area,garbage collection regular ah illa in my area,Garbage collection is not regular in my area,code_mixed,complaint,sanitation,Sanitation Department,medium,service_delay,urban_area,Chennai,synthetic,train
+CDX_051,ration card application status enna,ration card application status enna,What is the status of my ration card application,code_mixed,status_query,certificates,Revenue Department,low,information_query,urban_area,Chennai,synthetic,train
+CDX_052,birth certificate apply panna process explain pannunga,birth certificate apply panna process explain pannunga,Explain the process to apply for birth certificate,code_mixed,application_help,certificates,Revenue Department,low,information_query,urban_area,Chennai,synthetic,train
+CDX_053,old complaint still not resolved enna update,old complaint still not resolved enna update,Previous complaint is still not resolved what is the update,code_mixed,follow_up,sanitation,Sanitation Department,medium,service_delay,urban_area,Chennai,synthetic,train
+CDX_054,water tank cleaning request register panna venum,water tank cleaning request register panna venum,Need to register a request for water tank cleaning,code_mixed,application_help,water_supply,Water Supply Department,low,information_query,urban_area,Chennai,synthetic,train
+CDX_055,eb bill amount romba high why this much,eb bill amount romba high why this much,Electricity bill amount is very high why is it so,code_mixed,complaint,electricity,Electricity Department,medium,service_failure,urban_area,Chennai,synthetic,train
+CDX_056,sewage overflow problem road la dangerous ah iruku,sewage overflow problem road la dangerous ah iruku,Sewage overflow on the road is dangerous,code_mixed,complaint,drainage,Drainage Department,high,public_hazard,urban_area,Chennai,synthetic,train
+CDX_057,street dog problem complaint register panna venum,street dog problem complaint register panna venum,Need to register complaint for street dog problem,code_mixed,application_help,public_health,Public Health Department,low,information_query,urban_area,Chennai,synthetic,train
+CDX_058,passport status check panna website enna,passport status check panna website enna,What is the website to check passport status,code_mixed,information_request,certificates,Revenue Department,low,information_query,urban_area,Chennai,synthetic,train
+CDX_059,new water connection apply panna help venum,new water connection apply panna help venum,Need help to apply for new water connection,code_mixed,application_help,water_supply,Water Supply Department,low,information_query,urban_area,Chennai,synthetic,train
+CDX_060,this issue escalate panna higher officer yaru,this issue escalate panna higher officer yaru,Who is the higher officer to escalate this issue,code_mixed,escalation,roads,Roads Department,high,public_hazard,urban_area,Chennai,synthetic,train
