@@ -29,18 +29,18 @@ CDX_027,இந்த பிரச்சனைக்கு யாரை contact �
 CDX_028,டிரெயின் முழுசா block ஆகிடுச்சு,டிரெயின் முழுவதும் அடைந்துள்ளது,Drain is completely blocked,tamil,complaint,drainage,Drainage Department,high,public_hazard,urban_area,Chennai,synthetic,train
 CDX_029,இந்த சேவை ரொம்ப மோசமா இருக்கு,இந்த சேவை மிகவும் மோசமாக உள்ளது,This service is very poor,tamil,escalation,welfare,Welfare Department,medium,service_failure,urban_area,Chennai,synthetic,train
 CDX_030,எப்படி இந்த form fill பண்ணுவது?,இந்த படிவத்தை எப்படி நிரப்புவது?,How to fill this form?,code_mixed,application_help,water_supply,Water Supply Department,low,information_query,urban_area,Chennai,synthetic,train
-CDX_031,kuppai 3 naal ah edukkala,,,,tanglish,,,,,,,,synthetic,train
-CDX_032,road la periya pothole iruku,,,,tanglish,,,,,,,,synthetic,train
-CDX_033,street light night la work agala,,,,tanglish,,,,,,,,synthetic,train
-CDX_034,water supply rendu naal ah varala,,,,tanglish,,,,,,,,synthetic,train
-CDX_035,drain full ah block aayiduchu,,,,tanglish,,,,,,,,synthetic,train
-CDX_036,birth certificate epdi apply panrathu,,,,tanglish,,,,,,,,synthetic,train
-CDX_037,passport status epdi check panrathu,,,,tanglish,,,,,,,,synthetic,train
-CDX_038,garbage collection regular ah illa,,,,tanglish,,,,,,,,synthetic,train
-CDX_039,old complaint ku innum response illa,,,,tanglish,,,,,,,,synthetic,train
-CDX_040,collector kita complaint escalate panna venum,,,,tanglish,,,,,,,,synthetic,train
-CDX_041,eb bill romba adhigam vandiruku,,,,tanglish,,,,,,,,synthetic,train
-CDX_042,sewage overflow aguthu road la,,,,tanglish,,,,,,,,synthetic,train
-CDX_043,ration card apply panna help venum,,,,tanglish,,,,,,,,synthetic,train
-CDX_044,street dog problem romba jasthi,,,,tanglish,,,,,,,,synthetic,train
-CDX_045,water tank clean panna sollunga,,,,tanglish,,,,,,,,synthetic,train
+CDX_031,kuppai 3 naal ah edukkala,kuppai 3 naal ah edukkala,Garbage not collected for 3 days,tanglish,complaint,sanitation,Sanitation Department,medium,service_delay,urban_area,Chennai,synthetic,train
+CDX_032,road la periya pothole iruku,road la periya pothole iruku,There is a big pothole on the road,tanglish,complaint,roads,Roads Department,high,public_hazard,urban_area,Chennai,synthetic,train
+CDX_033,street light night la work agala,street light night la work agala,Street light is not working at night,tanglish,complaint,street_lighting,Electricity Department,medium,service_failure,urban_area,Chennai,synthetic,train
+CDX_034,water supply rendu naal ah varala,water supply rendu naal ah varala,No water supply for two days,tanglish,complaint,water_supply,Water Supply Department,high,service_failure,urban_area,Chennai,synthetic,train
+CDX_035,drain full ah block aayiduchu,drain full ah block aayiduchu,Drain is completely blocked,tanglish,complaint,drainage,Drainage Department,high,public_hazard,urban_area,Chennai,synthetic,train
+CDX_036,birth certificate epdi apply panrathu,birth certificate epdi apply panrathu,How to apply for birth certificate,tanglish,application_help,certificates,Revenue Department,low,information_query,urban_area,Chennai,synthetic,train
+CDX_037,passport status epdi check panrathu,passport status epdi check panrathu,How to check passport status,tanglish,status_query,certificates,Revenue Department,low,information_query,urban_area,Chennai,synthetic,train
+CDX_038,garbage collection regular ah illa,garbage collection regular ah illa,Garbage collection is not regular,tanglish,complaint,sanitation,Sanitation Department,medium,service_delay,urban_area,Chennai,synthetic,train
+CDX_039,old complaint ku innum response illa,old complaint ku innum response illa,No response for previous complaint,tanglish,follow_up,sanitation,Sanitation Department,medium,service_delay,urban_area,Chennai,synthetic,train
+CDX_040,collector kita complaint escalate panna venum,collector kita complaint escalate panna venum,Need to escalate complaint to higher authority,tanglish,escalation,roads,Roads Department,high,public_hazard,urban_area,Chennai,synthetic,train
+CDX_041,eb bill romba adhigam vandiruku,eb bill romba adhigam vandiruku,Electricity bill is very high,tanglish,complaint,electricity,Electricity Department,medium,service_failure,urban_area,Chennai,synthetic,train
+CDX_042,sewage overflow aguthu road la,sewage overflow aguthu road la,Sewage is overflowing on the road,tanglish,complaint,drainage,Drainage Department,high,public_hazard,urban_area,Chennai,synthetic,train
+CDX_043,ration card apply panna help venum,ration card apply panna help venum,Need help to apply for ration card,tanglish,application_help,certificates,Revenue Department,low,information_query,urban_area,Chennai,synthetic,train
+CDX_044,street dog problem romba jasthi,street dog problem romba jasthi,Street dog problem is very high,tanglish,complaint,public_health,Public Health Department,medium,service_failure,urban_area,Chennai,synthetic,train
+CDX_045,water tank clean panna sollunga,water tank clean panna sollunga,Request to clean water tank,tanglish,complaint,water_supply,Water Supply Department,medium,service_delay,urban_area,Chennai,synthetic,train
