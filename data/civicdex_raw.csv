@@ -14,18 +14,33 @@ CDX_012,இந்த பிரச்சனை இன்னும் சரி �
 CDX_013,என் அப்ளிகேஷன் ரிஜெக்ட் ஆனதுக்கு காரணம் என்ன?,என் விண்ணப்பம் நிராகரிக்கப்பட்டதற்கான காரணம் என்ன?,Why was my application rejected?,tamil,status_query,certificates,Revenue Department,low,information_query,urban_area,Chennai,synthetic,train
 CDX_014,புதிய டிரெயினேஜ் கனெக்ஷன் அப்ளை பண்ணணும் எப்படி?,புதிய வடிகால் இணைப்பு விண்ணப்பிக்க எப்படி?,How to apply for new drainage connection?,tamil,application_help,drainage,Drainage Department,low,information_query,urban_area,Chennai,synthetic,train
 CDX_015,குப்பை எடுக்காம இருந்தா நோய் வரும் இது அவசரம்,குப்பை எடுக்காமல் இருந்தால் நோய் வரும் இது அவசரம்,Garbage not collected may cause disease this is urgent,tamil,complaint,sanitation,Sanitation Department,high,public_hazard,urban_area,Chennai,synthetic,train
-CDX_016,என்னோட பழைய ரெக்வெஸ்ட் ஏன் இன்னும் pending?,என் பழைய கோரிக்கை ஏன் இன்னும் நிலுவையில் உள்ளது?,Why is my previous request still pending?,tamil,follow_up,water_supply,Water Supply Department,medium,service_delay,urban_area,Chennai,synthetic,train
+CDX_016,என்னோட பழைய ரெக்வெஸ்ட் ஏன் இன்னும் pending?,என் பழைய கோரிக்கை ஏன் இன்னும் நிலுவையில் உள்ளது?,Why is my previous request still pending?,code_mixed,follow_up,water_supply,Water Supply Department,medium,service_delay,urban_area,Chennai,synthetic,train
 CDX_017,இந்த சாலை நிலைமை ரொம்ப மோசம் உடனே சரி செய்ய வேண்டும்,இந்த சாலை நிலைமை மிகவும் மோசம் உடனே சரி செய்ய வேண்டும்,The road condition is very bad fix immediately,tamil,escalation,roads,Roads Department,high,public_hazard,urban_area,Chennai,synthetic,train
 CDX_018,பவர் கட்ட் எப்போ சரியாகும்?,மின்சாரம் துண்டிப்பு எப்போது சரியாகும்?,When will the power cut be resolved?,tamil,status_query,electricity,Electricity Department,medium,service_delay,urban_area,Chennai,synthetic,train
-CDX_019,நான் எப்படி welfare scheme apply பண்ணுவது?,நான் welfare திட்டத்திற்கு எப்படி விண்ணப்பிப்பது?,How do I apply for welfare scheme?,tamil,application_help,welfare,Welfare Department,low,information_query,urban_area,Chennai,synthetic,train
+CDX_019,நான் எப்படி welfare scheme apply பண்ணுவது?,நான் welfare திட்டத்திற்கு எப்படி விண்ணப்பிப்பது?,How do I apply for welfare scheme?,code_mixed,application_help,welfare,Welfare Department,low,information_query,urban_area,Chennai,synthetic,train
 CDX_020,மருத்துவமனை சேவை மிகவும் மோசம் இது பற்றி complaint கொடுக்கணும்,மருத்துவமனை சேவை மிகவும் மோசம் இது பற்றி புகார் அளிக்க வேண்டும்,Hospital service is very bad need to file complaint,tamil,complaint,public_health,Public Health Department,high,service_failure,urban_area,Chennai,synthetic,train
 CDX_021,குப்பை எடுக்கவே இல்ல சார்,குப்பை எடுக்கவே இல்லை,Garbage is not being collected,tamil,complaint,sanitation,Sanitation Department,medium,service_delay,urban_area,Chennai,synthetic,train
 CDX_022,இந்த லைட் இன்னும் சரி பண்ணலயா?,இந்த விளக்கு இன்னும் சரி செய்யப்படவில்லை?,Is the street light still not fixed?,tamil,follow_up,street_lighting,Electricity Department,medium,service_delay,urban_area,Chennai,synthetic,train
 CDX_023,ரோட்ல போகவே முடியல ரொம்ப மோசம்,சாலையில் செல்ல முடியவில்லை மிகவும் மோசம்,The road is very bad cannot travel,tamil,complaint,roads,Roads Department,high,public_hazard,urban_area,Chennai,synthetic,train
 CDX_024,தண்ணீர் வரல ரொம்ப கஷ்டமா இருக்கு,தண்ணீர் வரவில்லை மிகவும் கஷ்டமாக உள்ளது,No water supply it is very difficult,tamil,complaint,water_supply,Water Supply Department,high,service_failure,urban_area,Chennai,synthetic,train
 CDX_025,எங்க அப்ளிகேஷன் இன்னும் pending தான்,என் விண்ணப்பம் இன்னும் நிலுவையில் உள்ளது,My application is still pending,tamil,status_query,certificates,Revenue Department,low,information_query,urban_area,Chennai,synthetic,train
-CDX_026,இது பற்றி already complaint கொடுத்தேன்,இது பற்றி ஏற்கனவே புகார் அளித்தேன்,I already gave a complaint about this,tamil,follow_up,sanitation,Sanitation Department,medium,service_delay,urban_area,Chennai,synthetic,train
-CDX_027,இந்த பிரச்சனைக்கு யாரை contact பண்ணலாம்?,இந்த பிரச்சனைக்கு யாரை தொடர்பு கொள்ளலாம்?,Who should I contact for this issue?,tamil,information_request,public_health,Public Health Department,low,information_query,urban_area,Chennai,synthetic,train
+CDX_026,இது பற்றி already complaint கொடுத்தேன்,இது பற்றி ஏற்கனவே புகார் அளித்தேன்,I already gave a complaint about this,code_mixed,follow_up,sanitation,Sanitation Department,medium,service_delay,urban_area,Chennai,synthetic,train
+CDX_027,இந்த பிரச்சனைக்கு யாரை contact பண்ணலாம்?,இந்த பிரச்சனைக்கு யாரை தொடர்பு கொள்ளலாம்?,Who should I contact for this issue?,code_mixed,information_request,public_health,Public Health Department,low,information_query,urban_area,Chennai,synthetic,train
 CDX_028,டிரெயின் முழுசா block ஆகிடுச்சு,டிரெயின் முழுவதும் அடைந்துள்ளது,Drain is completely blocked,tamil,complaint,drainage,Drainage Department,high,public_hazard,urban_area,Chennai,synthetic,train
 CDX_029,இந்த சேவை ரொம்ப மோசமா இருக்கு,இந்த சேவை மிகவும் மோசமாக உள்ளது,This service is very poor,tamil,escalation,welfare,Welfare Department,medium,service_failure,urban_area,Chennai,synthetic,train
-CDX_030,எப்படி இந்த form fill பண்ணுவது?,இந்த படிவத்தை எப்படி நிரப்புவது?,How to fill this form?,tamil,application_help,water_supply,Water Supply Department,low,information_query,urban_area,Chennai,synthetic,train
+CDX_030,எப்படி இந்த form fill பண்ணுவது?,இந்த படிவத்தை எப்படி நிரப்புவது?,How to fill this form?,code_mixed,application_help,water_supply,Water Supply Department,low,information_query,urban_area,Chennai,synthetic,train
+CDX_031,kuppai 3 naal ah edukkala,,,,tanglish,,,,,,,,synthetic,train
+CDX_032,road la periya pothole iruku,,,,tanglish,,,,,,,,synthetic,train
+CDX_033,street light night la work agala,,,,tanglish,,,,,,,,synthetic,train
+CDX_034,water supply rendu naal ah varala,,,,tanglish,,,,,,,,synthetic,train
+CDX_035,drain full ah block aayiduchu,,,,tanglish,,,,,,,,synthetic,train
+CDX_036,birth certificate epdi apply panrathu,,,,tanglish,,,,,,,,synthetic,train
+CDX_037,passport status epdi check panrathu,,,,tanglish,,,,,,,,synthetic,train
+CDX_038,garbage collection regular ah illa,,,,tanglish,,,,,,,,synthetic,train
+CDX_039,old complaint ku innum response illa,,,,tanglish,,,,,,,,synthetic,train
+CDX_040,collector kita complaint escalate panna venum,,,,tanglish,,,,,,,,synthetic,train
+CDX_041,eb bill romba adhigam vandiruku,,,,tanglish,,,,,,,,synthetic,train
+CDX_042,sewage overflow aguthu road la,,,,tanglish,,,,,,,,synthetic,train
+CDX_043,ration card apply panna help venum,,,,tanglish,,,,,,,,synthetic,train
+CDX_044,street dog problem romba jasthi,,,,tanglish,,,,,,,,synthetic,train
+CDX_045,water tank clean panna sollunga,,,,tanglish,,,,,,,,synthetic,train
