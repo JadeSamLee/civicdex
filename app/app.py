@@ -1,6 +1,5 @@
 # =========================================
-# CivicDex AI Dashboard (Production Ready)
-# Multilingual Civic Routing System
+# CivicDex AI Dashboard (Production UI Upgrade)
 # =========================================
 
 import os
@@ -9,28 +8,31 @@ import pandas as pd
 import joblib
 import matplotlib.pyplot as plt
 import seaborn as sns
+import networkx as nx
 
 from sklearn.metrics import classification_report, confusion_matrix
 from routing import get_department
 
 # -----------------------------
-# SAFE PATH CONFIG (DEPLOYMENT SAFE)
+# CONFIG
+# -----------------------------
+st.set_page_config(
+    page_title="CivicDex AI Dashboard",
+    layout="wide"
+)
+
+st.title("CivicDex: Civic AI Routing System")
+st.markdown("Multilingual civic request classification and intelligent routing system")
+
+# -----------------------------
+# SAFE PATHS
 # -----------------------------
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 MODEL_PATH = os.path.join(BASE_DIR, "baselines", "civicdex_model.pkl")
 DATA_PATH = os.path.join(BASE_DIR, "data", "civicdex_test.csv")
 
 # -----------------------------
-# PAGE CONFIG
-# -----------------------------
-st.set_page_config(page_title="CivicDex AI", layout="wide")
-
-st.title("CivicDex: Civic AI Routing System")
-st.markdown("Multilingual civic request classification and intelligent department routing system.")
-
-# -----------------------------
-# SAFE MODEL LOADING
+# LOAD MODEL
 # -----------------------------
 @st.cache_resource
 def load_model():
@@ -42,14 +44,14 @@ def load_model():
 model = load_model()
 
 # -----------------------------
-# SAFE DATA LOADING
+# LOAD DATA
 # -----------------------------
 @st.cache_data
 def load_data():
     try:
         return pd.read_csv(DATA_PATH)
     except:
-        return pd.DataFrame(columns=["normalized_text", "intent", "language_type"])
+        return pd.DataFrame()
 
 df = load_data()
 
@@ -57,7 +59,7 @@ TEXT_COL = "normalized_text"
 LABEL_COL = "intent"
 
 # -----------------------------
-# SIDEBAR NAVIGATION
+# SIDEBAR
 # -----------------------------
 menu = st.sidebar.radio(
     "Navigation",
@@ -69,53 +71,55 @@ menu = st.sidebar.radio(
 # =====================================================
 if menu == "Live Prediction":
 
-    st.header("Citizen Request Analysis")
+    st.header("Citizen Request Analyzer")
 
-    user_input = st.text_area("Enter civic complaint (Tamil / Tanglish / English)")
+    user_input = st.text_area("Enter civic request (Tamil / Tanglish / English)")
 
-    if st.button("Analyze Request"):
+    if st.button("Analyze"):
 
         if not user_input.strip():
             st.warning("Please enter a valid request.")
         else:
 
-            if model is None:
-                st.error("Model not found. Please ensure civicdex_model.pkl is trained and placed correctly.")
-            else:
+            if model:
                 try:
                     pred = model.predict([user_input])[0]
                 except:
                     pred = "unknown"
+            else:
+                pred = "model_not_found"
 
-                dept = get_department(pred, user_input)
+            dept = get_department(pred, user_input)
 
-                col1, col2 = st.columns(2)
+            col1, col2 = st.columns(2)
 
-                with col1:
-                    st.success(f"Predicted Intent: {pred}")
+            with col1:
+                st.success(f"Intent: {pred}")
 
-                with col2:
-                    st.info(f"Assigned Department: {dept}")
+            with col2:
+                st.info(f"Department: {dept}")
 
 # =====================================================
 # ANALYTICS DASHBOARD
 # =====================================================
 elif menu == "Analytics Dashboard":
 
-    st.header("Dataset & Routing Analytics")
+    st.header("Civic System Analytics")
 
     if df.empty:
-        st.warning("Dataset not found or empty.")
+        st.warning("No dataset found")
     else:
 
-        # Predictions
+        # -----------------------------
+        # SAFE PREDICTIONS
+        # -----------------------------
         if model:
             try:
                 df["prediction"] = model.predict(df[TEXT_COL].astype(str))
             except:
-                df["prediction"] = "error"
+                df["prediction"] = "unknown"
         else:
-            df["prediction"] = "no_model"
+            df["prediction"] = "unknown"
 
         df["department"] = df.apply(
             lambda r: get_department(r["prediction"], str(r[TEXT_COL])),
@@ -123,48 +127,94 @@ elif menu == "Analytics Dashboard":
         )
 
         # -----------------------------
+        # KPI ROW
+        # -----------------------------
+        col1, col2, col3 = st.columns(3)
+
+        col1.metric("Total Requests", len(df))
+        col2.metric("Unique Intents", df["prediction"].nunique())
+        col3.metric("Departments", df["department"].nunique())
+
+        st.markdown("---")
+
+        # -----------------------------
         # INTENT DISTRIBUTION
         # -----------------------------
         st.subheader("Intent Distribution")
 
-        fig1, ax1 = plt.subplots()
-        df[LABEL_COL].value_counts().plot(kind="bar", ax=ax1)
-        st.pyplot(fig1)
+        fig, ax = plt.subplots()
+        df["prediction"].value_counts().plot(kind="bar", ax=ax)
+        ax.set_ylabel("Count")
+        st.pyplot(fig)
 
         # -----------------------------
-        # PREDICTION DISTRIBUTION
-        # -----------------------------
-        st.subheader("Prediction Distribution")
-
-        fig2, ax2 = plt.subplots()
-        df["prediction"].value_counts().plot(kind="bar", ax=ax2)
-        st.pyplot(fig2)
-
-        # -----------------------------
-        # ROUTING DISTRIBUTION
+        # DEPARTMENT DISTRIBUTION
         # -----------------------------
         st.subheader("Department Routing Distribution")
 
-        fig3, ax3 = plt.subplots()
-        df["department"].value_counts().plot(kind="bar", ax=ax3)
-        st.pyplot(fig3)
+        fig, ax = plt.subplots()
+        df["department"].value_counts().plot(kind="barh", ax=ax)
+        st.pyplot(fig)
 
         # -----------------------------
-        # SAMPLE DATA
+        # HEATMAP (IMPORTANT)
         # -----------------------------
-        st.subheader("Sample Data")
+        st.subheader("Intent → Department Heatmap")
 
-        st.dataframe(df[[TEXT_COL, LABEL_COL, "prediction", "department"]].head(10))
+        try:
+            pivot = pd.crosstab(df["prediction"], df["department"])
+            fig, ax = plt.subplots(figsize=(10, 5))
+            sns.heatmap(pivot, cmap="YlGnBu", ax=ax)
+            st.pyplot(fig)
+        except:
+            st.info("Heatmap not available")
+
+        # -----------------------------
+        # ROUTING GRAPH (SYSTEM VIEW)
+        # -----------------------------
+        st.subheader("Civic Routing Flow Graph")
+
+        try:
+            G = nx.DiGraph()
+
+            for i in range(min(len(df), 200)):
+                G.add_edge(df["prediction"].iloc[i], df["department"].iloc[i])
+
+            fig, ax = plt.subplots(figsize=(10, 6))
+            pos = nx.spring_layout(G, seed=42)
+
+            nx.draw(
+                G,
+                pos,
+                with_labels=True,
+                node_color="#A9CCE3",
+                node_size=2000,
+                font_size=8,
+                arrows=True,
+                ax=ax
+            )
+
+            st.pyplot(fig)
+
+        except:
+            st.info("Graph not available")
+
+        # -----------------------------
+        # SAMPLE TABLE
+        # -----------------------------
+        st.subheader("Sample Predictions")
+
+        st.dataframe(df[[TEXT_COL, "prediction", "department"]].head(15))
 
 # =====================================================
 # MODEL EVALUATION
 # =====================================================
 elif menu == "Model Evaluation":
 
-    st.header("Model Performance Insights")
+    st.header("Model Performance")
 
     if df.empty or model is None:
-        st.warning("Model or dataset not available.")
+        st.warning("No evaluation available")
     else:
 
         try:
@@ -182,12 +232,12 @@ elif menu == "Model Evaluation":
             cm = confusion_matrix(y_true, y_pred, labels=labels)
 
             fig, ax = plt.subplots()
-            sns.heatmap(cm, annot=True, fmt="d",
+            sns.heatmap(cm, annot=True, fmt="d", cmap="Blues",
                         xticklabels=labels,
                         yticklabels=labels,
-                        cmap="Blues")
+                        ax=ax)
 
             st.pyplot(fig)
 
         except:
-            st.error("Evaluation failed due to insufficient or inconsistent data.")
+            st.error("Evaluation failed")

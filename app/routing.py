@@ -1,53 +1,39 @@
 # =========================================
-# CivicDex Routing Engine (Production Safe)
-# Hybrid Routing
+# CivicDex Routing Engine (Safe + Clean)
 # =========================================
 
 def get_department(prediction, user_input: str):
 
-    text = str(user_input).lower() if user_input else ""
-    prediction = str(prediction).lower() if prediction else "unknown"
+    text = str(user_input).lower().strip() if user_input else ""
+    prediction = str(prediction).lower().strip() if prediction else "unknown"
 
     # -----------------------------
-    # WATER
+    # COMPLAINT ROUTING (keyword-based)
     # -----------------------------
     if prediction == "complaint":
+
         if any(w in text for w in ["water", "tanker", "tap", "pipeline"]):
-            return "Water Supply Board"
+            return "Water Supply Department"
 
-    # -----------------------------
-    # ROADS
-    # -----------------------------
-    if prediction == "complaint":
         if any(w in text for w in ["road", "pothole", "street", "asphalt"]):
-            return "Municipal Roads Department"
+            return "Roads Department"
 
-    # -----------------------------
-    # ELECTRICITY
-    # -----------------------------
-    if prediction == "complaint":
-        if any(w in text for w in ["light", "electricity", "power", "current"]):
-            return "Electricity Board"
+        if any(w in text for w in ["light", "electricity", "power", "current", "street light"]):
+            return "Electricity Department"
 
-    # -----------------------------
-    # SANITATION
-    # -----------------------------
-    if prediction == "complaint":
         if any(w in text for w in ["garbage", "waste", "drainage", "sewage", "smell"]):
             return "Sanitation Department"
 
-    # -----------------------------
-    # HEALTH
-    # -----------------------------
-    if prediction == "complaint":
         if any(w in text for w in ["hospital", "doctor", "medical", "ambulance"]):
             return "Public Health Department"
 
+        return "Municipal Services Department"
+
     # -----------------------------
-    # NON-ML INTENTS
+    # INTENT-BASED ROUTING (non-complaints)
     # -----------------------------
     routing_map = {
-        "status_query": "Service Tracking Department",
+        "status_query": "Service Tracking Unit",
         "follow_up": "Complaint Resolution Unit",
         "information_request": "Citizen Information Center",
         "escalation": "Senior Municipal Officer",
