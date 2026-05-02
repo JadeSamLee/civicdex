@@ -1,12 +1,21 @@
-# Core data processing
+# ================================
+# CivicDex Streamlit Application Dependencies
+# Multilingual Civic AI Assistant
+# ================================
+
+# Core web app framework
+streamlit
+
+# Data processing
 pandas
 numpy
 
-# Machine learning
+# Machine learning (model + metrics)
 scikit-learn
 
 # Model persistence
 joblib
 
-# Interactive demo application
-streamlit
+# Visualization (charts, confusion matrix, distributions)
+matplotlib
+seaborn
