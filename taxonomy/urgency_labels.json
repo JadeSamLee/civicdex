@@ -1,5 +1,5 @@
 {
-  "low": "No immediate action required",
-  "medium": "Should be resolved within a few days",
-  "high": "Requires immediate attention"
+  "low": "Non - urgent issue",
+  "medium": "Needs attention soon",
+  "high": "Immediate action required"
 }
