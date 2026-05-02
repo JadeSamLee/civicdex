@@ -1,355 +1,150 @@
-# CivicDex: A Multilingual Public-Service Request Dataset for Civic AI
+# CivicDex: Multilingual Civic Request Understanding and Routing
 
+CivicDex is a multilingual civic-service dataset for understanding and routing public-service requests written in Tamil, Tanglish, English, and code-mixed text. The dataset is designed for intent classification, category prediction, department routing, urgency estimation, and civic AI prototyping in low-resource settings.
 
-CivicDex is a structured, open-source dataset project designed to support the development of AI systems for public-service request understanding, routing, and assistance in Tamil, Tanglish, and mixed-language user inputs. The project is built around a practical gap in current AI data availability: civic-service and government-facing request data in under-resourced Indian languages is limited, inconsistently structured, and difficult to reuse for benchmarking or product development. This directly aligns with the challenge goal of building open datasets for underserved domains, scarce public data settings, and under-resourced languages. 
+## Overview
 
-## Project Summary
+CivicDex focuses on citizen-facing service requests such as sanitation complaints, water issues, road damage, certificate-related queries, and escalation messages. Each record is structured to support both dataset research and end-to-end application development, including dashboard and routing workflows.
 
-CivicDex is intended to function as a seed dataset and reusable benchmark for civic-service AI use cases. The dataset captures realistic public-service interactions such as complaints, information requests, document-related help, service delays, grievance follow-ups, and routing needs. It is designed for machine learning, prompt engineering, retrieval, workflow automation, and multilingual public-service system design. The dataset is not positioned as a giant web-scale corpus; instead, it is a high-clarity, well-annotated, extensible foundation that other developers and researchers can expand. This type of transparent, purposeful documentation is consistent with best practices recommended for data cards and dataset publishing. [4][5][6]
+## Problem Statement
 
-## Core Problem
+Public-service request systems often struggle with multilingual and code-mixed inputs, especially when users mix Tamil and English or write Tamil in Roman script. CivicDex addresses this by providing a structured dataset with normalized text, language markers, intent labels, departmental routing fields, urgency, severity, and train/test split metadata.
 
-Many public-service workflows depend on unstructured citizen requests, but most open NLP datasets focus on broad classification tasks, social media, or high-resource languages. Tamil and Tamil-English code-mixed civic requests are especially underrepresented in reusable benchmark datasets, even though such inputs are common in real public-service contexts. CivicDex addresses this by defining a structured data format for civic intent understanding, service-category mapping, urgency estimation, and department routing. 
+## Dataset Description
 
-## Primary Objectives
+The primary dataset file is `civicdex_main.csv`. The schema shown in the dataset includes 14 columns: `request_id`, `raw_text`, `normalized_text`, `english_gloss`, `language_type`, `intent`, `category`, `department`, `urgency`, `severity`, `locality`, `district`, `source_type`, and `split`.
 
-CivicDex is designed to achieve the following objectives:
+### Supported Language Types
 
-- Build an original, openly shareable dataset for Tamil and code-mixed civic-service language. 
-- Support underserved public-service and governance-related NLP tasks. 
-- Provide a reusable benchmark for intent classification, request categorization, and service routing. 
-- Demonstrate that a small but carefully designed seed dataset can still be useful when documented well and validated with a baseline. 
-- Offer an extensible structure that future contributors can scale into a larger public benchmark. 
-
-## What CivicDex Should Demonstrate
-
-The project should communicate its purpose clearly without requiring additional verbal explanation. A person reading the repository should immediately understand that CivicDex is:
-
-- A civic-domain dataset, not a general chatbot dataset. 
-- Focused on Tamil, Tanglish, and multilingual citizen-service text. 
-- Built for practical AI tasks such as complaint classification, routing, and citizen assistance. 
-- Intentionally designed as a seed dataset with a documented growth path. 
-- Strong enough to support at least one basic validation benchmark. 
-
-## Scope of the Dataset
-
-CivicDex should include realistic examples of public-service interactions that a citizen might submit in a text-based system, complaint portal, mobile app, civic chatbot, or grievance redressal platform. The dataset may include synthetic but realistic samples, provided the documentation clearly distinguishes synthetic generation from real-world collection and avoids copying public complaint text verbatim. Transparent source and generation documentation is important for trustworthy dataset publication. [4][5]
-
-Recommended request types include:
-
-- Complaint reporting
-- Service outage reporting
-- Status inquiry
-- Document assistance request
-- Application help request
-- Escalation or grievance follow-up
-- Public information query
-- Routing to the correct department
-
-## Language Coverage
-
-CivicDex should explicitly support multiple input styles commonly seen in real user requests:
-
-- Tamil script
-- Tanglish or romanized Tamil
-- Tamil-English code-mixed text
-- Simple English paraphrases where useful for glossing or benchmarking
-
-The repository should explain that multilingual and code-mixed support matters because under-resourced language infrastructure often fails when real user inputs do not remain in a single standardized format. 
-
-## Benchmark Tasks
-
-CivicDex should support at least one primary benchmark and optionally several secondary ones.
-
-### Primary Task
-
-**Intent Classification**
-
-The first and most important benchmark should be intent classification. Given a citizen request, the model predicts the high-level user intent.
-
-Example intent labels:
-
-- complaint
-- information_request
-- status_query
-- document_help
-- application_help
-- follow_up
-- escalation
-
-### Secondary Tasks
-
-- **Category Classification**: Predict the service category, such as roads, water, sanitation, electricity, certificates, welfare, or public health.
-- **Department Routing**: Predict which department or service unit should handle the request.
-- **Urgency Classification**: Predict whether the request is low, medium, or high urgency.
-- **Language-Type Detection**: Detect Tamil, Tanglish, or code-mixed usage.
-- **Normalization**: Map noisy user input into a cleaner canonical version.
-
-These tasks make the dataset more reusable across NLP, workflow automation, and product design use cases. 
-
-## Recommended Dataset Size
-
-CivicDex can begin as a seed dataset. A practical initial size is 200 to 500 rows, with a goal of high annotation quality rather than large scale. This is acceptable when the documentation makes the design choices clear and when at least one small validation step is included. The repository should state that the initial version is a seed release intended for structured extension. 
-
-## Data Design Principles
-
-The dataset should be designed with the following principles:
-
-- **Originality**: Text should be original, synthetic, contributed, or carefully transformed, not copied verbatim from public records. 
-- **Transparency**: The README and data card should clearly state whether each sample is synthetic, human-authored, paraphrased, or collected. 
-- **Task usefulness**: Every field should support at least one benchmark or practical workflow. 
-- **Extensibility**: Labels and schema should be easy to scale to more districts, more languages, and more services. 
-- **Practical realism**: Samples should resemble real citizen messages, including short, noisy, and incomplete requests. 
+- `tamil` — native Tamil script inputs.
+- `tanglish` — Tamil written in Roman script.
+- `code_mixed` — mixed Tamil-English expressions.
+- `english` — English civic-service requests, included in schema definition even though the preview is dominated by Tamil, Tanglish, and code-mixed examples.
 
 ## Dataset Schema
 
-The main dataset should be stored in a structured CSV or JSON file. A recommended schema is below.
+| Field | Description |
+|---|---|
+| `request_id` | Unique identifier for each civic request. |
+| `raw_text` | Original user-provided request text. |
+| `normalized_text` | Cleaned or normalized version of the request for modeling. |
+| `english_gloss` | English gloss or translation-like interpretation of the request. |
+| `language_type` | Language form such as tamil, tanglish, or code_mixed. |
+| `intent` | Main intent label, such as complaint or status query. |
+| `category` | Civic domain category, such as sanitation, roads, or certificates. |
+| `department` | Mapped handling department, such as Water Supply Department or Revenue Department. |
+| `urgency` | Priority level, such as low, medium, or high. |
+| `severity` | Finer-grained severity type, such as service_delay or public_hazard. |
+| `locality` | Locality descriptor, such as urban_area. |
+| `district` | District label, such as Chennai in the preview rows. |
+| `source_type` | Data origin marker, such as real, synthetic, or synthetic_realistic. |
+| `split` | Dataset split marker, such as train. |
 
-| Field | Type | Description |
-|---|---|---|
-| request_id | string | Unique identifier for each sample |
-| raw_text | string | Original user input in Tamil, Tanglish, code-mixed, or English |
-| normalized_text | string | Cleaned or normalized version of the request |
-| english_gloss | string | Short English translation or gloss |
-| language_type | string | One of: tamil, tanglish, code_mixed, english |
-| intent | string | High-level request intent |
-| category | string | Service category |
-| department | string | Responsible department or service office |
-| urgency | string | Low, medium, or high |
-| severity | string | Operational severity if relevant |
-| locality | string | Generalized locality or placeholder area |
-| district | string | District or region tag if used |
-| source_type | string | synthetic, human_written, paraphrased, collected |
-| split | string | train, validation, or test |
-| notes | string | Optional comments for annotation or ambiguity |
-
-The schema should remain simple enough for Kaggle and Hugging Face users to understand quickly. Clear structure and accessibility are core dataset publishing expectations. [6][4]
-
-## Label Taxonomy
-
-A separate taxonomy file should define each allowed label and its meaning.
+## Label Space
 
 ### Intent Labels
 
-| Label | Meaning |
-|---|---|
-| complaint | User reports a problem requiring action |
-| information_request | User asks for instructions or public information |
-| status_query | User asks about progress or current request state |
-| document_help | User needs help obtaining or understanding a document |
-| application_help | User needs help with a service application or form |
-| follow_up | User follows up on an earlier request |
-| escalation | User expresses dissatisfaction and requests higher attention |
+The dataset preview contains at least the following intent labels:
+
+- `complaint`
+- `follow_up`
+- `status_query`
+- `information_request`
+- `escalation`
+- `application_help`
+- `document_help`
 
 ### Category Labels
 
-Suggested categories may include:
+The preview shows multiple domain categories, including:
 
-- roads
-- sanitation
-- water_supply
-- drainage
-- electricity
-- certificates
-- welfare
-- public_health
-- street_lighting
-- waste_management
-- housing
-- transport
+- `sanitation`
+- `water_supply`
+- `roads`
+- `street_lighting`
+- `drainage`
+- `electricity`
+- `public_health`
+- `certificates`
+- `welfare`
+- `transport`
 
-### Urgency Labels
+### Department Labels
 
-| Label | Meaning |
-|---|---|
-| low | Inconvenience with no immediate safety risk |
-| medium | Important issue needing timely response |
-| high | Safety-critical or severe service failure |
+The preview maps requests to operational departments such as:
 
-## Example Rows
+- `Sanitation Department`
+- `Water Supply Department`
+- `Roads Department`
+- `Electricity Department`
+- `Drainage Department`
+- `Public Health Department`
+- `Revenue Department`
+- `Welfare Department`
+- `Transport Department`
 
-The dataset documentation should include a few representative rows.
+## Benchmark Tasks
 
-| request_id | raw_text | english_gloss | language_type | intent | category | department | urgency |
-|---|---|---|---|---|---|---|---|
-| CDX_0001 | எங்கள் தெருவில் மூன்று நாட்களாக குப்பை எடுக்கவில்லை | Garbage has not been collected in our street for three days | tamil | complaint | waste_management | sanitation_department | medium |
-| CDX_0002 | street light work pannala, full dark ah iruku | The street light is not working and it is completely dark | tanglish | complaint | street_lighting | electrical_maintenance | high |
-| CDX_0003 | birth certificate apply panna eppadi | How do I apply for a birth certificate | tanglish | information_request | certificates | citizen_services | low |
+CivicDex can support several supervised and rule-assisted tasks:
 
-Examples help users understand task framing immediately, which is a core strength of well-documented datasets. 
+1. Intent classification from `raw_text` or `normalized_text`.
+2. Category classification for civic-service domains.
+3. Department routing based on request content and predicted labels.
+4. Urgency prediction using intent, lexical cues, and severity patterns.
+5. Multilingual and code-mixed civic NLP experimentation using Tamil, Tanglish, and code-mixed records.
 
-## Train, Validation, and Test Split
+## Example Use Cases
 
-The dataset should include a documented split strategy. For an initial 300-row release, an example split is:
+- Complaint intake systems for municipalities.
+- Citizen grievance triage dashboards.
+- AI assistants for form help, service information, and request tracking.
+- Escalation-aware routing prototypes for public-service workflows.
 
-- Train: 70%
-- Validation: 15%
-- Test: 15%
+## Baseline System Alignment
 
-The split procedure should attempt to minimize near-duplicate leakage across splits. The documentation should explain that the test set is held out for benchmark reporting. [4][6]
+A baseline application built on CivicDex should align with the actual dataset columns instead of using a reduced schema. In particular, a correct pipeline can use `normalized_text` as model input, predict `intent`, optionally predict `category`, and route to the `department` field already present in the dataset, while also exposing `urgency` and `severity` for downstream decision logic.
 
-## Validation Strategy
-
-Because the dataset is a seed dataset, it should include one lightweight validation benchmark to demonstrate usefulness.
-
-### Recommended Validation
-
-Implement a tiny baseline model for **intent classification**.
-
-Recommended baseline:
-
-- Input: `raw_text` or `normalized_text`
-- Features: TF-IDF or simple sentence embeddings
-- Model: Logistic Regression
-- Metric: Macro-F1
-
-This is preferred over rule-only validation because a small model provides a stronger signal that the dataset is learnable and useful for downstream ML. Baseline-oriented validation is a standard and effective way to demonstrate dataset usability, especially in low-resource settings. 
-
-### Secondary Validation
-
-Optionally include 5 to 10 manual example-based routing demonstrations showing:
-
-- input text
-- expected intent
-- expected category
-- expected department
-
-This gives qualitative evidence of realism and label consistency. 
-
-## Dataset Statistics
-
-### Category Distribution
-- water: 120 samples
-- roads: 110 samples
-- electricity: 95 samples
-- sanitation: 105 samples
-- drainage: 90 samples
-
-### Intent Distribution
-- complaint: 420 samples
-- request: 130 samples
-- inquiry: 50 samples
-
-### Language Distribution
-- Tamil: 40%
-- Tanglish: 35%
-- Code-mixed: 25%
-
-### Synthetic vs Real Data
-- Synthetic: 90%
-- Real-style samples: 10%
-
-## Statistics to Report
-
-CivicDex does not require advanced mathematical analysis, but it should report basic dataset statistics clearly.
-
-Recommended statistics:
-
-- Total number of rows
-- Number of rows per split
-- Label distribution for `intent`
-- Label distribution for `category`
-- Label distribution for `language_type`
-- Count of high-urgency requests
-- Count of synthetic versus collected examples
-- Duplicate count or duplicate-check summary if applicable
-
-These simple statistics help communicate quality, coverage, and reproducibility without turning the project into a research-heavy paper. 
-
-## Repository Structure
-
-A clean repository structure for CivicDex should look like this:
+## Suggested Repository Structure
 
 ```text
 CivicDex/
-├── README.md
-├── DATASET_CARD.md
-├── LICENSE
+├── app/
+│   ├── app.py
+│   ├── routing.py
+├── baselines/
+│   ├── civicdex_model.pkl
 ├── data/
 │   ├── civicdex_main.csv
-│   ├── civicdex_train.csv
-│   ├── civicdex_validation.csv
-│   └── civicdex_test.csv
-├── taxonomy/
-│   ├── intent_labels.json
-│   ├── category_labels.json
-│   ├── urgency_labels.json
-│   └── language_type_labels.json
-├── docs/
-│   ├── annotation_guidelines.md
-│   ├── schema.md
-│   ├── methodology.md
-│   └── examples.md
-├── baselines/
-│   ├── intent_classification_baseline.ipynb
-│   └── intent_classification_baseline.py
-└── results/
-    └── baseline_metrics.md
+├── notebooks/
+│   ├── baseline_experiments.ipynb
+├── requirements.txt
+├── README.md
 ```
 
-This structure makes the project easy to navigate for judges, contributors, and downstream users. Clear documentation and organization are part of good dataset publication practice. 
+This structure is consistent with a dataset-first repository that also includes a simple ML baseline and a Streamlit interface. The exact files may vary, but `civicdex_main.csv` should remain the canonical dataset source referenced by the README.
 
-## README Requirements
+## How to Run
 
-The README should stand on its own and answer the following questions immediately:
+```bash
+pip install -r requirements.txt
+streamlit run app/app.py
+```
 
-- What is CivicDex?
-- Why does it matter?
-- Which language problem does it address?
-- What tasks does it support?
-- What is included in the repository?
-- How can someone use it?
-- How was the data created?
-- What are the limitations?
+If a baseline model is included, it should be trained on the train split indicated by the `split` column and evaluated on a held-out test split if present in the repository. The README should only claim metrics that are actually reproducible from the shared code and files.
 
-A strong README is especially important for Kaggle and public dataset presentation because users often decide within seconds whether a dataset is useful. 
+## Limitations
 
-## Data Card Requirements
+- The preview shows a mix of `real`, `synthetic`, and `synthetic_realistic` examples, so the dataset should be described as a hybrid civic dataset rather than a fully real-world collection.
+- The visible rows are concentrated in `urban_area` and `Chennai`, so geographic generalization should not be overstated without broader coverage.
+- Any performance claims must match the released model artifacts and evaluation scripts, not assumed benchmark numbers.
 
-The Data Card or Dataset Card should include:
+## Future Improvements
 
-- Dataset motivation
-- Intended users
-- Intended tasks
-- Collection or generation process
-- Annotation methodology
-- Known limitations
-- Risks and ethical considerations
-- Licensing and reuse conditions
+- Expand district coverage beyond the currently previewed Chennai-focused records.
+- Increase real annotated samples relative to synthetic and synthetic_realistic entries.
+- Add stronger train/test documentation and dataset cards for reproducibility.
+- Extend benchmarking to transformer-based multilingual models after publishing a transparent baseline.
 
-Data Cards are a recognized best practice for transparent dataset documentation and help communicate dataset purpose, assumptions, and appropriate use. 
+## Purpose
 
-## Ethical and Privacy Considerations
-
-CivicDex should avoid storing personally identifiable information such as full names, exact addresses, government ID numbers, or phone numbers. Any locally specific examples should be generalized or anonymized. The documentation should clearly state that the dataset is intended for research, prototyping, and civic AI benchmarking, not for automated denial, surveillance, or harmful profiling. Transparency and responsible use language strengthen the credibility of the dataset. 
-
-## Growth Plan
-
-CivicDex should present itself not just as a static dataset but as an expandable infrastructure project.
-
-The roadmap can include:
-
-- More Tamil regional variation
-- More district and municipal mappings
-- Additional code-mixed variants
-- More service categories
-- More benchmark tasks
-- Human validation rounds
-- Cross-lingual extension to other Indian languages
-
-This growth plan is important because a strong seed dataset becomes more valuable when it clearly shows how the ecosystem can build on it. [7][5]
-
-## Submission Framing for the Challenge
-
-If this project is submitted to The Uncharted Data Challenge, CivicDex should explicitly frame itself as:
-
-- A dataset for an underserved civic-service NLP domain. 
-- A contribution to scarce open-source Tamil public-service language data. 
-- A resource for an under-resourced language context. 
-- An openly documented benchmark with practical downstream use. 
-
-The submission should also credit Adaptive Data by Adaption if required by the challenge instructions. 
-
-## Final Positioning Statement
-
-CivicDex should be presented as a practical, well-documented, benchmark-oriented civic AI dataset for Tamil and code-mixed public-service requests. Its strength is not raw scale but clarity of design, usability, extensibility, and relevance to under-resourced civic language technology. A reader should be able to understand the problem, inspect the schema, view sample records, run a baseline, and immediately see how the dataset can be reused or extended. This is the standard the repository should aim to meet. 
+CivicDex is best described as a structured multilingual civic dataset for request understanding and routing in public-service settings. It is suitable for low-resource civic NLP research, municipal AI prototyping, multilingual intent classification, and operational routing experiments.

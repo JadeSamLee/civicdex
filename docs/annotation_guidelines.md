@@ -1,3 +1,15 @@
+# TL;DR Annotation Summary
+
+- Intent = user’s primary goal
+- Category = service domain
+- Urgency = impact severity
+- Language = script + mixing style
+- Department = responsible civic body
+
+All annotations follow rule-based + review-based validation.
+
+---
+
 # Annotation Guidelines for CivicDex
 
 ## Overview
@@ -23,6 +35,13 @@ The annotation process follows a structured multi-step workflow to ensure consis
 4. Final Validation
    - Dataset-level consistency checks are performed
    - Duplicate and near-duplicate samples are removed
+   
+## Dataset Philosophy
+
+CivicDex prioritizes:
+- Consistency over scale
+- Realistic civic phrasing over synthetic complexity
+- Structured annotation over noisy labeling
    
 ## Intent Classification Guidelines
 
