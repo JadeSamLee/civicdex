@@ -1,5 +1,5 @@
 # =========================================
-# CivicDex AI Dashboard (Production UI Upgrade)
+# CivicDex AI Dashboard (Stable Production Version)
 # =========================================
 
 import os
@@ -8,31 +8,36 @@ import pandas as pd
 import joblib
 import matplotlib.pyplot as plt
 import seaborn as sns
-import networkx as nx
 
 from sklearn.metrics import classification_report, confusion_matrix
 from routing import get_department
 
 # -----------------------------
+# OPTIONAL NETWORKX (SAFE IMPORT)
+# -----------------------------
+try:
+    import networkx as nx
+    HAS_NX = True
+except:
+    HAS_NX = False
+
+# -----------------------------
 # CONFIG
 # -----------------------------
-st.set_page_config(
-    page_title="CivicDex AI Dashboard",
-    layout="wide"
-)
+st.set_page_config(page_title="CivicDex AI Dashboard", layout="wide")
 
 st.title("CivicDex: Civic AI Routing System")
-st.markdown("Multilingual civic request classification and intelligent routing system")
+st.markdown("Multilingual civic request classification + routing intelligence")
 
 # -----------------------------
-# SAFE PATHS
+# PATHS
 # -----------------------------
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MODEL_PATH = os.path.join(BASE_DIR, "baselines", "civicdex_model.pkl")
 DATA_PATH = os.path.join(BASE_DIR, "data", "civicdex_test.csv")
 
 # -----------------------------
-# LOAD MODEL
+# MODEL
 # -----------------------------
 @st.cache_resource
 def load_model():
@@ -44,7 +49,7 @@ def load_model():
 model = load_model()
 
 # -----------------------------
-# LOAD DATA
+# DATA
 # -----------------------------
 @st.cache_data
 def load_data():
@@ -73,12 +78,12 @@ if menu == "Live Prediction":
 
     st.header("Citizen Request Analyzer")
 
-    user_input = st.text_area("Enter civic request (Tamil / Tanglish / English)")
+    user_input = st.text_area("Enter civic request")
 
     if st.button("Analyze"):
 
         if not user_input.strip():
-            st.warning("Please enter a valid request.")
+            st.warning("Enter valid request")
         else:
 
             if model:
@@ -87,27 +92,24 @@ if menu == "Live Prediction":
                 except:
                     pred = "unknown"
             else:
-                pred = "model_not_found"
+                pred = "model_not_loaded"
 
             dept = get_department(pred, user_input)
 
             col1, col2 = st.columns(2)
 
-            with col1:
-                st.success(f"Intent: {pred}")
-
-            with col2:
-                st.info(f"Department: {dept}")
+            col1.metric("Predicted Intent", pred)
+            col2.metric("Department", dept)
 
 # =====================================================
-# ANALYTICS DASHBOARD
+# ANALYTICS DASHBOARD (CLEAN + SAFE)
 # =====================================================
 elif menu == "Analytics Dashboard":
 
-    st.header("Civic System Analytics")
+    st.header("System Analytics")
 
     if df.empty:
-        st.warning("No dataset found")
+        st.warning("Dataset not found")
     else:
 
         # -----------------------------
@@ -127,13 +129,13 @@ elif menu == "Analytics Dashboard":
         )
 
         # -----------------------------
-        # KPI ROW
+        # KPI ROW (FIXED)
         # -----------------------------
-        col1, col2, col3 = st.columns(3)
+        c1, c2, c3 = st.columns(3)
 
-        col1.metric("Total Requests", len(df))
-        col2.metric("Unique Intents", df["prediction"].nunique())
-        col3.metric("Departments", df["department"].nunique())
+        c1.metric("Total Requests", len(df))
+        c2.metric("Unique Intents", df["prediction"].nunique())
+        c3.metric("Departments", df["department"].nunique())
 
         st.markdown("---")
 
@@ -144,74 +146,90 @@ elif menu == "Analytics Dashboard":
 
         fig, ax = plt.subplots()
         df["prediction"].value_counts().plot(kind="bar", ax=ax)
-        ax.set_ylabel("Count")
         st.pyplot(fig)
 
         # -----------------------------
         # DEPARTMENT DISTRIBUTION
         # -----------------------------
-        st.subheader("Department Routing Distribution")
+        st.subheader("Department Routing")
 
         fig, ax = plt.subplots()
         df["department"].value_counts().plot(kind="barh", ax=ax)
         st.pyplot(fig)
 
         # -----------------------------
-        # HEATMAP (IMPORTANT)
+        # HEATMAP (SAFE)
         # -----------------------------
         st.subheader("Intent → Department Heatmap")
 
         try:
             pivot = pd.crosstab(df["prediction"], df["department"])
-            fig, ax = plt.subplots(figsize=(10, 5))
-            sns.heatmap(pivot, cmap="YlGnBu", ax=ax)
-            st.pyplot(fig)
-        except:
-            st.info("Heatmap not available")
 
-        # -----------------------------
-        # ROUTING GRAPH (SYSTEM VIEW)
-        # -----------------------------
-        st.subheader("Civic Routing Flow Graph")
-
-        try:
-            G = nx.DiGraph()
-
-            for i in range(min(len(df), 200)):
-                G.add_edge(df["prediction"].iloc[i], df["department"].iloc[i])
-
-            fig, ax = plt.subplots(figsize=(10, 6))
-            pos = nx.spring_layout(G, seed=42)
-
-            nx.draw(
-                G,
-                pos,
-                with_labels=True,
-                node_color="#A9CCE3",
-                node_size=2000,
-                font_size=8,
-                arrows=True,
-                ax=ax
-            )
-
-            st.pyplot(fig)
+            if pivot.shape[0] > 1 and pivot.shape[1] > 1:
+                fig, ax = plt.subplots(figsize=(10, 5))
+                sns.heatmap(pivot, cmap="Blues", ax=ax)
+                st.pyplot(fig)
+            else:
+                st.info("Not enough variation for heatmap")
 
         except:
-            st.info("Graph not available")
+            st.info("Heatmap unavailable")
 
         # -----------------------------
-        # SAMPLE TABLE
+        # ROUTING GRAPH (FIXED)
         # -----------------------------
-        st.subheader("Sample Predictions")
+        st.subheader("Routing Flow Graph")
+
+        if HAS_NX:
+
+            try:
+                G = nx.DiGraph()
+
+                sample = df.dropna().head(150)
+
+                for _, row in sample.iterrows():
+                    if row["prediction"] and row["department"]:
+                        G.add_edge(row["prediction"], row["department"])
+
+                if len(G.nodes) > 0:
+
+                    fig, ax = plt.subplots(figsize=(10, 6))
+                    pos = nx.spring_layout(G, seed=42)
+
+                    nx.draw(
+                        G,
+                        pos,
+                        with_labels=True,
+                        node_size=1800,
+                        node_color="#AED6F1",
+                        arrows=True,
+                        font_size=8,
+                        ax=ax
+                    )
+
+                    st.pyplot(fig)
+                else:
+                    st.info("No graph data available")
+
+            except:
+                st.info("Graph rendering failed")
+
+        else:
+            st.warning("Network graph disabled (networkx not installed)")
+
+        # -----------------------------
+        # SAMPLE DATA
+        # -----------------------------
+        st.subheader("Sample Output")
 
         st.dataframe(df[[TEXT_COL, "prediction", "department"]].head(15))
 
 # =====================================================
-# MODEL EVALUATION
+# MODEL EVALUATION (FIXED SAFE MODE)
 # =====================================================
 elif menu == "Model Evaluation":
 
-    st.header("Model Performance")
+    st.header("Model Evaluation")
 
     if df.empty or model is None:
         st.warning("No evaluation available")
@@ -221,23 +239,37 @@ elif menu == "Model Evaluation":
             y_true = df[LABEL_COL]
             y_pred = df["prediction"]
 
-            st.subheader("Classification Report")
+            # -----------------------------
+            # SAFE CHECK
+            # -----------------------------
+            if len(set(y_true)) < 2 or len(set(y_pred)) < 2:
+                st.warning("Not enough class variation for evaluation.")
+            else:
 
-            report = classification_report(y_true, y_pred, output_dict=True)
-            st.dataframe(pd.DataFrame(report).transpose())
+                st.subheader("Classification Report")
 
-            st.subheader("Confusion Matrix")
+                report = classification_report(
+                    y_true,
+                    y_pred,
+                    output_dict=True,
+                    zero_division=0
+                )
 
-            labels = sorted(y_true.unique())
-            cm = confusion_matrix(y_true, y_pred, labels=labels)
+                st.dataframe(pd.DataFrame(report).transpose())
 
-            fig, ax = plt.subplots()
-            sns.heatmap(cm, annot=True, fmt="d", cmap="Blues",
-                        xticklabels=labels,
-                        yticklabels=labels,
-                        ax=ax)
+                st.subheader("Confusion Matrix")
 
-            st.pyplot(fig)
+                labels = sorted(list(set(y_true) | set(y_pred)))
+
+                cm = confusion_matrix(y_true, y_pred, labels=labels)
+
+                fig, ax = plt.subplots()
+                sns.heatmap(cm, annot=True, fmt="d", cmap="Blues",
+                            xticklabels=labels,
+                            yticklabels=labels,
+                            ax=ax)
+
+                st.pyplot(fig)
 
         except:
-            st.error("Evaluation failed")
+            st.warning("Evaluation not available for current dataset")
