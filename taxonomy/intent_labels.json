@@ -1,11 +1,11 @@
 {
   "complaint": {
-    "description": "User reporting a civic issue or problem"
+    "description": "User reports a civic issue requiring resolution"
   },
   "request": {
-    "description": "User requesting a service or action"
+    "description": "User requests a civic service or action"
   },
   "inquiry": {
-    "description": "User asking for information"
+    "description": "User seeks information about civic services"
   }
 }
