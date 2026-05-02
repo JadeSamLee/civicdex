@@ -1,122 +1,193 @@
 # =========================================
-# CivicDex Streamlit Application
-# Multilingual Civic AI System
+# CivicDex AI Dashboard (Production Ready)
+# Multilingual Civic Routing System
 # =========================================
 
+import os
 import streamlit as st
 import pandas as pd
-import numpy as np
 import joblib
 import matplotlib.pyplot as plt
 import seaborn as sns
 
 from sklearn.metrics import classification_report, confusion_matrix
-
 from routing import get_department
 
 # -----------------------------
-# Page Config
+# SAFE PATH CONFIG (DEPLOYMENT SAFE)
+# -----------------------------
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+MODEL_PATH = os.path.join(BASE_DIR, "baselines", "civicdex_model.pkl")
+DATA_PATH = os.path.join(BASE_DIR, "data", "civicdex_test.csv")
+
+# -----------------------------
+# PAGE CONFIG
 # -----------------------------
 st.set_page_config(page_title="CivicDex AI", layout="wide")
 
-st.title("CivicDex: Multilingual Civic AI Assistant")
-
-st.markdown("""
-This system classifies civic-service requests in Tamil, Tanglish, and English,
-and routes them to the correct municipal department.
-""")
+st.title("CivicDex: Civic AI Routing System")
+st.markdown("Multilingual civic request classification and intelligent department routing system.")
 
 # -----------------------------
-# Load Model
+# SAFE MODEL LOADING
 # -----------------------------
 @st.cache_resource
 def load_model():
-    return joblib.load("baselines/civicdex_model.pkl")
+    try:
+        return joblib.load(MODEL_PATH)
+    except:
+        return None
 
 model = load_model()
 
 # -----------------------------
-# Load Dataset
+# SAFE DATA LOADING
 # -----------------------------
 @st.cache_data
 def load_data():
-    return pd.read_csv("data/civicdex_test.csv")
+    try:
+        return pd.read_csv(DATA_PATH)
+    except:
+        return pd.DataFrame(columns=["normalized_text", "intent", "language_type"])
 
 df = load_data()
 
 TEXT_COL = "normalized_text"
 LABEL_COL = "intent"
 
-X_test = df[TEXT_COL].astype(str)
-y_test = df[LABEL_COL]
-
 # -----------------------------
-# Navigation
+# SIDEBAR NAVIGATION
 # -----------------------------
 menu = st.sidebar.radio(
     "Navigation",
-    ["Live Prediction", "Model Performance", "Dataset Insights"]
+    ["Live Prediction", "Analytics Dashboard", "Model Evaluation"]
 )
 
 # =====================================================
 # LIVE PREDICTION
 # =====================================================
 if menu == "Live Prediction":
-    st.header("Civic Request Classification")
+
+    st.header("Citizen Request Analysis")
 
     user_input = st.text_area("Enter civic complaint (Tamil / Tanglish / English)")
 
-    if st.button("Predict"):
-        if user_input.strip():
+    if st.button("Analyze Request"):
 
-            pred = model.predict([user_input])[0]
-            dept = get_department(pred, user_input)
+        if not user_input.strip():
+            st.warning("Please enter a valid request.")
+        else:
 
-            st.success(f"Predicted Intent: {pred}")
-            st.info(f"Assigned Department: {dept}")
+            if model is None:
+                st.error("Model not found. Please ensure civicdex_model.pkl is trained and placed correctly.")
+            else:
+                try:
+                    pred = model.predict([user_input])[0]
+                except:
+                    pred = "unknown"
 
-# =====================================================
-# MODEL PERFORMANCE
-# =====================================================
-elif menu == "Model Performance":
-    st.header("Model Evaluation Dashboard")
+                dept = get_department(pred, user_input)
 
-    y_pred = model.predict(X_test)
+                col1, col2 = st.columns(2)
 
-    acc = np.mean(y_pred == y_test)
+                with col1:
+                    st.success(f"Predicted Intent: {pred}")
 
-    st.metric("Accuracy", f"{acc:.2f}")
-
-    st.subheader("Classification Report")
-
-    report = classification_report(y_test, y_pred, output_dict=True)
-    st.dataframe(pd.DataFrame(report).transpose())
-
-    st.subheader("Confusion Matrix")
-
-    labels = sorted(df[LABEL_COL].unique())
-    cm = confusion_matrix(y_test, y_pred, labels=labels)
-
-    fig, ax = plt.subplots()
-    sns.heatmap(cm, annot=True, fmt="d",
-                xticklabels=labels,
-                yticklabels=labels)
-    plt.xlabel("Predicted")
-    plt.ylabel("Actual")
-
-    st.pyplot(fig)
+                with col2:
+                    st.info(f"Assigned Department: {dept}")
 
 # =====================================================
-# DATASET INSIGHTS
+# ANALYTICS DASHBOARD
 # =====================================================
-elif menu == "Dataset Insights":
-    st.header("Dataset Analytics")
+elif menu == "Analytics Dashboard":
 
-    st.subheader("Intent Distribution")
+    st.header("Dataset & Routing Analytics")
 
-    fig1, ax1 = plt.subplots()
-    df[LABEL_COL].value_counts().plot(kind="bar", ax=ax1)
-    st.pyplot(fig1)
+    if df.empty:
+        st.warning("Dataset not found or empty.")
+    else:
 
-    st.subheader("Sample Data")
-    st.dataframe(df.head(10))
+        # Predictions
+        if model:
+            try:
+                df["prediction"] = model.predict(df[TEXT_COL].astype(str))
+            except:
+                df["prediction"] = "error"
+        else:
+            df["prediction"] = "no_model"
+
+        df["department"] = df.apply(
+            lambda r: get_department(r["prediction"], str(r[TEXT_COL])),
+            axis=1
+        )
+
+        # -----------------------------
+        # INTENT DISTRIBUTION
+        # -----------------------------
+        st.subheader("Intent Distribution")
+
+        fig1, ax1 = plt.subplots()
+        df[LABEL_COL].value_counts().plot(kind="bar", ax=ax1)
+        st.pyplot(fig1)
+
+        # -----------------------------
+        # PREDICTION DISTRIBUTION
+        # -----------------------------
+        st.subheader("Prediction Distribution")
+
+        fig2, ax2 = plt.subplots()
+        df["prediction"].value_counts().plot(kind="bar", ax=ax2)
+        st.pyplot(fig2)
+
+        # -----------------------------
+        # ROUTING DISTRIBUTION
+        # -----------------------------
+        st.subheader("Department Routing Distribution")
+
+        fig3, ax3 = plt.subplots()
+        df["department"].value_counts().plot(kind="bar", ax=ax3)
+        st.pyplot(fig3)
+
+        # -----------------------------
+        # SAMPLE DATA
+        # -----------------------------
+        st.subheader("Sample Data")
+
+        st.dataframe(df[[TEXT_COL, LABEL_COL, "prediction", "department"]].head(10))
+
+# =====================================================
+# MODEL EVALUATION
+# =====================================================
+elif menu == "Model Evaluation":
+
+    st.header("Model Performance Insights")
+
+    if df.empty or model is None:
+        st.warning("Model or dataset not available.")
+    else:
+
+        try:
+            y_true = df[LABEL_COL]
+            y_pred = df["prediction"]
+
+            st.subheader("Classification Report")
+
+            report = classification_report(y_true, y_pred, output_dict=True)
+            st.dataframe(pd.DataFrame(report).transpose())
+
+            st.subheader("Confusion Matrix")
+
+            labels = sorted(y_true.unique())
+            cm = confusion_matrix(y_true, y_pred, labels=labels)
+
+            fig, ax = plt.subplots()
+            sns.heatmap(cm, annot=True, fmt="d",
+                        xticklabels=labels,
+                        yticklabels=labels,
+                        cmap="Blues")
+
+            st.pyplot(fig)
+
+        except:
+            st.error("Evaluation failed due to insufficient or inconsistent data.")
