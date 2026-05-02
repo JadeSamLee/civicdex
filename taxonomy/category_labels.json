@@ -1,9 +1,8 @@
 {
-  "water": "Issues related to water supply, leakage, shortage",
-  "roads": "Road damage, potholes, construction issues",
-  "electricity": "Power cuts, transformer issues, wiring",
-  "sanitation": "Garbage collection, cleanliness issues",
+  "water": "Water supply issues, leakage, shortage",
+  "roads": "Road damage, potholes, construction",
+  "electricity": "Power outages, transformer issues",
+  "sanitation": "Garbage collection, waste management",
   "drainage": "Sewage overflow, blocked drains",
-  "street_lights": "Non-functional street lighting",
-  "public_health": "Health-related civic complaints"
+  "street_lights": "Non-functional street lighting"
 }
